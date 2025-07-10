@@ -1,6 +1,6 @@
-# 이슈 관리 API (백엔드 개발자 채용 과제)
+# 이슈 관리 API 
 
-Go 언어로 구현된 RESTful API로, 이슈 관리 시스템을 제공합니다.
+Go 언어로 구현된 RESTful API로, 이슈 관리 시스템을 제공
 
 ## 🚀 기능 요약
 
@@ -208,7 +208,3 @@ curl -X PATCH http://localhost:8080/issue/1 \
 - **웹 프레임워크**: Chi Router
 - **의존성 관리**: Go Modules
 - **코드 포맷팅**: gofmt
-
-## 📜 라이선스
-
-MIT
