@@ -205,6 +205,6 @@ curl -X PATCH http://localhost:8080/issue/1 \
 ## 🛠 기술 스택
 
 - **언어**: Go 1.22+
-- **웹 프레임워크**: Chi Router
+- **라우터 라이브러리**: Chi Router
 - **의존성 관리**: Go Modules
 - **코드 포맷팅**: gofmt
