@@ -1,6 +1,5 @@
 package main
 
-// 웹 서버 초기화, 라우팅 설정 및 핸들러 함수 구현
 import (
 	"log"
 	"net/http"
