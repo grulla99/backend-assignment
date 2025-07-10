@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/go-chi/chi/v5"
 
@@ -66,6 +67,19 @@ func (h *HTTPHandler) createIssue(w http.ResponseWriter, r *http.Request) {
 	_ = json.NewEncoder(w).Encode(iss)
 }
 
+type IssueResponse struct {
+	ID          uint      `json:"id"`
+	Title       string    `json:"title"`
+	Description string    `json:"description,omitempty"`
+	Status      string    `json:"status"`
+	CreatedAt   time.Time `json:"createdAt"`
+	UpdatedAt   time.Time `json:"updatedAt"`
+}
+
+type IssuesListResponse struct {
+	Issues []IssueResponse `json:"issues"`
+}
+
 func (h *HTTPHandler) listIssues(w http.ResponseWriter, r *http.Request) {
 	q := r.URL.Query().Get("status")
 	var status *model.IssueStatus
@@ -73,10 +87,23 @@ func (h *HTTPHandler) listIssues(w http.ResponseWriter, r *http.Request) {
 		s := model.IssueStatus(q)
 		status = &s
 	}
-	list := h.svc.ListIssues(status)
-	resp := map[string]interface{}{"issues": list}
+
+	issues := h.svc.ListIssues(status)
+
+	var response IssuesListResponse
+	for _, issue := range issues {
+		response.Issues = append(response.Issues, IssueResponse{
+			ID:          issue.ID,
+			Title:       issue.Title,
+			Description: issue.Description,
+			Status:      string(issue.Status),
+			CreatedAt:   issue.CreatedAt,
+			UpdatedAt:   issue.UpdatedAt,
+		})
+	}
+
 	w.Header().Set("Content-Type", "application/json")
-	_ = json.NewEncoder(w).Encode(resp)
+	_ = json.NewEncoder(w).Encode(response)
 }
 
 func (h *HTTPHandler) getIssue(w http.ResponseWriter, r *http.Request) {
